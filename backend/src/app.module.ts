@@ -13,6 +13,7 @@ import { Transaction } from './transaction/entities/transaction.entity';
 import { RecurringTransaction } from './recurring-transaction/entities/recurring-transaction.entity';
 import { Budget } from './budget/entities/budget.entity';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 // @Module({
 //   imports: [],
@@ -23,6 +24,7 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
