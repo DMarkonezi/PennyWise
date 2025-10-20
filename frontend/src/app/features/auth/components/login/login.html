@@ -1,0 +1,80 @@
+<div class="auth-container">
+  <div class="auth-visual">
+    <div class="visual-content">
+      <div class="logo-big">💰</div>
+      <h1>PennyWise</h1>
+      <p>Take control of your finances with smart budgeting and expense tracking</p>
+      
+      <div class="features">
+        <div class="feature">
+          <span class="icon">📊</span>
+          <span>Track your spending</span>
+        </div>
+        <div class="feature">
+          <span class="icon">🎯</span>
+          <span>Set budget goals</span>
+        </div>
+        <div class="feature">
+          <span class="icon">📈</span>
+          <span>Visualize your finances</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-form-section">
+    <div class="auth-form-container">
+      <div class="form-header">
+        <h2>Welcome back!</h2>
+        <p>Please enter your credentials to continue</p>
+      </div>
+
+      <form class="auth-form" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            [(ngModel)]="email"
+            name="email"
+            placeholder="your@email.com"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            [(ngModel)]="password"
+            name="password"
+            placeholder="••••••••"
+            required>
+        </div>
+
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe">
+            <span>Remember me</span>
+          </label>
+          <a href="#" class="link">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="loading$ | async">
+          <span *ngIf="!(loading$ | async)">Sign In</span>
+          <span *ngIf="loading$ | async">Signing in...</span>
+        </button>
+
+        <div *ngIf="error$ | async as error" style="color: red; margin-top: 10px; text-align: center;">
+          {{ error }}
+        </div>
+
+        <div class="form-footer">
+          <p>Don't have an account? 
+            <a (click)="goToRegister()" class="link" style="cursor: pointer;">Sign up</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

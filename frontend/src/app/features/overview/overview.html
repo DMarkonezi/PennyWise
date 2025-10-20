@@ -1,0 +1,71 @@
+<!-- src/app/features/overview/overview.html -->
+<div class="overview">
+  <div class="page-header">
+    <h1>Overview</h1>
+    <p>A snapshot of your financial health</p>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card income">
+      <div class="stat-icon">💰</div>
+      <div class="stat-info">
+        <h3>Income</h3>
+        <p class="amount">{{ totalIncome }} RSD</p>
+      </div>
+    </div>
+
+    <div class="stat-card expense">
+      <div class="stat-icon">💸</div>
+      <div class="stat-info">
+        <h3>Expenses</h3>
+        <p class="amount">{{ totalExpense }} RSD</p>
+      </div>
+    </div>
+
+    <div class="stat-card balance">
+      <div class="stat-icon">⚖️</div>
+      <div class="stat-info">
+        <h3>Balance</h3>
+        <p class="amount">{{ balance }} RSD</p>
+      </div>
+    </div>
+
+    <div class="stat-card savings">
+      <div class="stat-icon">🏦</div>
+      <div class="stat-info">
+        <h3>Savings</h3>
+        <p class="amount">{{ savings }} RSD</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Budget Overview -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Budget Overview</h2>
+      <button class="btn-add" (click)="onAddBudget()">+ Add Budget</button>
+    </div>
+
+    <div class="budget-list">
+      <div class="budget-item" *ngFor="let budget of budgets">
+        <div class="budget-info">
+          <span class="budget-icon">{{ budget.icon }}</span>
+          <div>
+            <h4>{{ budget.category }}</h4>
+            <div class="progress-bar">
+              <div 
+                class="progress-fill" 
+                [style.width.%]="(budget.spent / budget.limit) * 100"
+                [class.warning]="budget.spent / budget.limit > 0.8">
+              </div>
+            </div>
+            <p class="budget-text">
+              {{ budget.spent }} / {{ budget.limit }} RSD
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

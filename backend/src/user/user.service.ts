@@ -33,11 +33,15 @@ export class UserService {
     return `This action removes a #${id} user`;
   }
 
-  async findByEmail(email: string) {
+  async findByEmail(email: string): Promise<User | null> {
+    return this.usersRepository.findOne({ where: { email: email } });
+  }
+
+  async findByEmailOrThrow(email: string): Promise<User> {
     const user = await this.usersRepository.findOne({ where: { email: email } });
-    if (!user)
+    if (!user) {
       throw new BadRequestException("User with that email doesn't exist");
-    
+    }
     return user;
-  }  
+  }
 }

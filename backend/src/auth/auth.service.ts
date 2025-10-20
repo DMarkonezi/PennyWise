@@ -19,7 +19,7 @@ export class AuthService {
   }
 
   async validateUser(email: string, pass: string) {
-    const user = await this.userService.findByEmail(email);
+    const user = await this.userService.findByEmailOrThrow(email);
     if (!user) throw new UnauthorizedException('User not found');
 
     const valid = await bcrypt.compare(pass, user.password);
@@ -45,7 +45,12 @@ export class AuthService {
   async login(user: any) {
     const payload = { email: user.email, sub: user.id };
     return {
-      access_token: this.jwtService.sign(payload),
+      token: this.jwtService.sign(payload),
+      user: {
+        id: user.id,
+        email: user.email,
+        username: user.firstName + ' ' + user.lastName,  
+      },
     };
   }
 }
