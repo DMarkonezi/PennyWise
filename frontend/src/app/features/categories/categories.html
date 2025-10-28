@@ -1,0 +1,34 @@
+<div class="categories-container">
+  <div class="header">
+    <h2>Categories</h2>
+    <button class="btn-add" (click)="openForm()">+ Add Category</button>
+  </div>
+
+  <div *ngIf="loading$ | async" class="loading">Loading...</div>
+  <div *ngIf="error$ | async as error" class="error">{{ error }}</div>
+
+  <!-- LISTA KARTICA -->
+  <div class="cards">
+    <app-category-card
+      *ngFor="let c of (categories$ | async) ?? []"
+      [category]="c"
+      (delete)="deleteCategory($event)">
+    </app-category-card>
+  </div>
+
+  <!-- BACKDROP -->
+  <div class="modal-backdrop" 
+    *ngIf="isFormOpen$ | async" 
+    (click)="closeForm()">
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal" 
+    *ngIf="isFormOpen$ | async" 
+    (click)="$event.stopPropagation()">
+    <app-category-form
+      (save)="addCategory($event)"
+      (cancel)="closeForm()">
+    </app-category-form>
+  </div>
+</div>

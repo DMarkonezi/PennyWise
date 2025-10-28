@@ -1,0 +1,24 @@
+.category-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 8px;
+  transition: all 0.2s ease;
+}
+.category-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.icon {
+  font-size: 24px;
+}
+.btn-delete {
+  background: transparent;
+  border: none;
+  color: crimson;
+  font-size: 20px;
+  cursor: pointer;
+}

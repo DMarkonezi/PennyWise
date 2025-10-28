@@ -1,0 +1,48 @@
+<div class="sidebar">
+      <div class="logo">
+        <h2>💰 PennyWise</h2>
+      </div>
+
+      <nav class="nav-menu">
+        <a 
+          routerLink="/overview" 
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-item">
+          <span class="icon">📊</span>
+          <span class="label">Overview</span>
+        </a>
+
+        <a 
+          routerLink="/transactions" 
+          routerLinkActive="active"
+          class="nav-item">
+          <span class="icon">💳</span>
+          <span class="label">Transactions</span>
+        </a>
+
+        <a 
+          routerLink="/categories" 
+          routerLinkActive="active"
+          class="nav-item">
+          <span class="icon">🏷️</span>
+          <span class="label">Categories</span>
+        </a>
+
+        <a 
+          routerLink="/budgets" 
+          routerLinkActive="active"
+          class="nav-item">
+          <span class="icon">📈</span>
+          <span class="label">Budgets</span>
+        </a>
+
+        <a 
+          routerLink="/recurring-transactions" 
+          routerLinkActive="active"
+          class="nav-item">
+          <span class="icon">🔄</span>
+          <span class="label">Recurring</span>
+        </a>
+      </nav>
+    </div>

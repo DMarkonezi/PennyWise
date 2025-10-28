@@ -1,0 +1,28 @@
+<table class="tx-table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th>Type</th>
+      <th>Amount</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let t of transactions" [class]="t.type">
+      <td>{{ t.date | date:'shortDate' }}</td>
+      <td>{{ t.description }}</td>  
+      <td>{{ t.categoryId }}</td>
+      <td>
+        <span [class]="'type-' + t.type">
+          {{ t.type | uppercase }}
+        </span>
+      </td>
+      <td class="amount">{{ t.amount | number:'1.2-2' }} RSD</td>
+      <td>
+        <button (click)="onDelete(t.id)" class="btn-delete">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
