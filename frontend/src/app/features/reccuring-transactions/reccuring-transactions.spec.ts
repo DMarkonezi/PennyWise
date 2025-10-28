@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Overview } from './overview';
+import { ReccuringTransactions } from './reccuring-transactions';
 
-describe('Overview', () => {
-  let component: Overview;
-  let fixture: ComponentFixture<Overview>;
+describe('ReccuringTransactions', () => {
+  let component: ReccuringTransactions;
+  let fixture: ComponentFixture<ReccuringTransactions>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Overview]
+      imports: [ReccuringTransactions]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Overview);
+    fixture = TestBed.createComponent(ReccuringTransactions);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

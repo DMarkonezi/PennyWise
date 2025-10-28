@@ -6,9 +6,11 @@ import { filter } from 'rxjs/operators';
 import * as AuthSelectors from './features/auth/store/auth.selectors';
 import * as AuthActions from './features/auth/store/auth.actions';
 
+import { MainLayoutComponent } from './features/layout/components/main-layout/main-layout';
+
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule, MainLayoutComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -51,6 +53,5 @@ export class App implements OnInit {
   onLogout() {
     // Dispatch logout akciju iz NGRX
     this.store.dispatch(AuthActions.logout());
-    // Effects će automatski redirekcija na /login
   }
 }

@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './overview.html',
   styleUrl: './overview.css',
 })
-export class Overview {
+export class OverviewComponent {
   totalIncome = 150000;
   totalExpense = 98500;
   balance = 51500;
