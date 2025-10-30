@@ -13,7 +13,7 @@
     <tr *ngFor="let t of transactions" [class]="t.type">
       <td>{{ t.date | date:'shortDate' }}</td>
       <td>{{ t.description }}</td>  
-      <td>{{ t.categoryId }}</td>
+      <td>{{ t.categoryName }}</td>
       <td>
         <span [class]="'type-' + t.type">
           {{ t.type | uppercase }}
