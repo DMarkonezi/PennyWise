@@ -8,24 +8,19 @@ import * as AuthActions from './auth.actions';
 
 @Injectable()
 export class AuthEffects {
-
   private actions$ = inject(Actions);
   private authService = inject(AuthService);
   private router = inject(Router);
 
   login$ = createEffect(() => {
-    console.log('LOGIN EFFECT KREIIRAN');
     return this.actions$.pipe(
       ofType(AuthActions.login),
       switchMap(({ credentials }) => {
-        console.log('LOGIN ACTION PRIMLJEN', credentials);
         return this.authService.login(credentials).pipe(
           map((user) => {
-            console.log('LOGIN USPEŠAN', user);
             return AuthActions.loginSuccess({ user });
           }),
           catchError((error) => {
-            console.log('LOGIN GREŠKA', error);
             return of(AuthActions.loginFailure({ error: error.error?.message || 'Login failed' }));
           })
         );
@@ -35,11 +30,9 @@ export class AuthEffects {
 
   loginSuccess$ = createEffect(
     () => {
-      console.log('LOGIN SUCCESS EFFECT KREIRAN');
       return this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
         tap((action) => {
-          console.log('REDIREKCIJA NA OVERVIEW', action);
           this.router.navigate(['/overview']);
         })
       );
@@ -48,18 +41,14 @@ export class AuthEffects {
   );
 
   register$ = createEffect(() => {
-    console.log('REGISTER EFFECT KREIRAN');
     return this.actions$.pipe(
       ofType(AuthActions.register),
       switchMap(({ credentials }) => {
-        console.log('REGISTER ACTION PRIMLJEN', credentials);
         return this.authService.register(credentials).pipe(
           map((user) => {
-            console.log('REGISTER USPEŠAN', user);
             return AuthActions.registerSuccess({ user });
           }),
           catchError((error) => {
-            console.log('REGISTER GREŠKA', error);
             return of(AuthActions.registerFailure({ error: error.error?.message || 'Registration failed' }));
           })
         );
@@ -69,11 +58,9 @@ export class AuthEffects {
 
   registerSuccess$ = createEffect(
     () => {
-      console.log('REGISTER SUCCESS EFFECT KREIRAN');
       return this.actions$.pipe(
         ofType(AuthActions.registerSuccess),
         tap((action) => {
-          console.log('REDIREKCIJA NA OVERVIEW', action);
           this.router.navigate(['/overview']);
         })
       );
@@ -83,11 +70,9 @@ export class AuthEffects {
 
   logout$ = createEffect(
     () => {
-      console.log('LOGOUT EFFECT KREIRAN');
       return this.actions$.pipe(
         ofType(AuthActions.logout),
         tap(() => {
-          console.log('REDIREKCIJA NA LOGIN');
           this.router.navigate(['/login']);
         })
       );
