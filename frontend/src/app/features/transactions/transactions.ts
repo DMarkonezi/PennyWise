@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 //import { TransactionListComponent } from '../../components/transaction-list/transaction-list.component';
 import * as TransactionsActions from '../transactions/store/transactions.actions';
 import * as TransactionsSelectors from '../transactions/store/transactions.selectors'
+import * as OverviewSelectors from '../overview/store/overview.selectors';
 import { TransactionFormComponent } from './components/transaction-form/transaction-form';
 import { TransactionsListComponent } from './components/transaction-list/transactions-list';
 
@@ -25,10 +26,6 @@ export class TransactionsComponent implements OnInit {
   loading$ = this.store.select(TransactionsSelectors.selectTransactionsLoading);
   error$ = this.store.select(TransactionsSelectors.selectTransactionsError);
   isFormOpen$ = this.store.select(TransactionsSelectors.selectIsFormOpen);
-
-  // totalIncome$ = this.store.select(TransactionsSelectors.selectTotalIncome);
-  // totalExpense$ = this.store.select(TransactionsSelectors.selectTotalExpense);
-  // balance$ = this.store.select(TransactionsSelectors.selectBalance);
 
   ngOnInit() {
     this.store.dispatch(TransactionsActions.loadTransactions());
