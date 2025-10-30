@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
-// import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { User } from 'src/user/entities/user.entity';

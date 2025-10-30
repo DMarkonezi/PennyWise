@@ -35,7 +35,7 @@ export const selectSelectedTransactionId = createSelector(
   (state) => state.selectedTransactionId
 );
 
-// Filtrirani selektori
+// Filtrirani selektors
 export const selectIncomes = createSelector(
   selectAllTransactions,
   (transactions) => transactions.filter(t => t.type === 'INCOME')

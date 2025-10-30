@@ -15,13 +15,6 @@ import { Budget } from './budget/entities/budget.entity';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 
-// @Module({
-//   imports: [],
-//   controllers: [AppController],
-//   providers: [AppService],
-// })
-// export class AppModule {}
-
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),

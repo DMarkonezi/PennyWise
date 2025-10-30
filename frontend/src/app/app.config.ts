@@ -4,6 +4,7 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { metaReducers } from '../app/core/store/meta-reducer';
 // import { environment } from '../environments/environment';
 
 import { routes } from './app.routes';
@@ -26,11 +27,20 @@ export const appConfig: ApplicationConfig = {
     ),
     
     // NgRx store
-    provideStore({
-      auth: authReducer,
-      categories: categoriesReducer,
-      transactions: transactionsReducer
-    }),
+    // provideStore({
+    //   auth: authReducer,
+    //   categories: categoriesReducer,
+    //   transactions: transactionsReducer
+    // }),
+    provideStore(
+      {
+        auth: authReducer,
+        categories: categoriesReducer,
+        transactions: transactionsReducer,
+      },
+      { metaReducers }
+    ),
+
     provideEffects([AuthEffects, CategoriesEffects, TransactionsEffects]),
     
     provideStoreDevtools({

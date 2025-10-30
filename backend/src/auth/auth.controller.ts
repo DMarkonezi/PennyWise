@@ -2,6 +2,8 @@ import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 
+// Prima HTTP zahteve
+
 @Controller('api/auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

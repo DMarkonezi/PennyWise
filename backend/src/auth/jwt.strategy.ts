@@ -11,8 +11,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly userService: UserService
   ) {
       super({
-          jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-          ignoreExpiration: false,
+          jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // Ocekuje da token stigne u header-u "Authorization: "
+          ignoreExpiration: false, // Proverava se da li je isteko
           secretOrKey: configService.get<string>('JWT_SECRET') || 'default',
       });
   }
@@ -26,5 +26,4 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const { password, ...safeUser } = user;
     return safeUser;
   }
-
 }

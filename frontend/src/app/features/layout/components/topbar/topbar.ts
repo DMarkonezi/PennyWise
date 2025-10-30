@@ -17,10 +17,13 @@ export class TopbarComponent {
   @Input() user: User | undefined;
 
   private store = inject(Store);
+  private router = inject(Router);
 
   onLogout(): void {
     if (confirm('Are you sure?')) {
-      this.store.dispatch(AuthActions.logout());
+      localStorage.removeItem('token');   // briše JWT token
+      this.store.dispatch(AuthActions.logout()); // resetuje ceo store
+      this.router.navigate(['/login']);    // preusmerava korisnika na login
     }
   }
 
