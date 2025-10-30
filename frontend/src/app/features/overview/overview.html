@@ -1,71 +1,150 @@
-<!-- src/app/features/overview/overview.html -->
-<div class="overview">
-  <div class="page-header">
-    <h1>Overview</h1>
-    <p>A snapshot of your financial health</p>
-  </div>
+<div class="overview-container">
+   <div class="header">
+      <h1>Financial Overview</h1>
+      <p>Your financial snapshot</p>
+   </div>
+        
+   <div class="stats-grid">
 
-  <!-- Stats Cards -->
-  <div class="stats-grid">
-    <div class="stat-card income">
-      <div class="stat-icon">💰</div>
-      <div class="stat-info">
-        <h3>Income</h3>
-        <p class="amount">{{ totalIncome }} RSD</p>
-      </div>
-    </div>
+      <ng-container *ngIf="financialSummary$ | async as financial">
 
-    <div class="stat-card expense">
-      <div class="stat-icon">💸</div>
-      <div class="stat-info">
-        <h3>Expenses</h3>
-        <p class="amount">{{ totalExpense }} RSD</p>
-      </div>
-    </div>
-
-    <div class="stat-card balance">
-      <div class="stat-icon">⚖️</div>
-      <div class="stat-info">
-        <h3>Balance</h3>
-        <p class="amount">{{ balance }} RSD</p>
-      </div>
-    </div>
-
-    <div class="stat-card savings">
-      <div class="stat-icon">🏦</div>
-      <div class="stat-info">
-        <h3>Savings</h3>
-        <p class="amount">{{ savings }} RSD</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Budget Overview -->
-  <div class="section">
-    <div class="section-header">
-      <h2>Budget Overview</h2>
-      <button class="btn-add" (click)="onAddBudget()">+ Add Budget</button>
-    </div>
-
-    <div class="budget-list">
-      <div class="budget-item" *ngFor="let budget of budgets">
-        <div class="budget-info">
-          <span class="budget-icon">{{ budget.icon }}</span>
-          <div>
-            <h4>{{ budget.category }}</h4>
-            <div class="progress-bar">
-              <div 
-                class="progress-fill" 
-                [style.width.%]="(budget.spent / budget.limit) * 100"
-                [class.warning]="budget.spent / budget.limit > 0.8">
-              </div>
+         <div class="stat-card income">
+            <div class="card-header">
+               <h3>Total Income</h3>
+               <span class="icon">💰</span>   
             </div>
-            <p class="budget-text">
-              {{ budget.spent }} / {{ budget.limit }} RSD
-            </p>
-          </div>
-        </div>
+            <div class="card-body">
+               <p class="amount">{{ financial.income | number:'1.2-2' }} RSD</p>
+               <p class="transactions">{{ (incomeTransactions$ | async)?.length || 0 }} transactions</p>   
+            </div>
+         </div>  
+            
+         <div class="stat-card expense">
+            <div class="card-header">
+               <h3>Total Expenses</h3>
+               <span class="icon">💸</span>      
+            </div>
+            <div class="card-body">
+               <p class="amount">{{ financial.expense | number:'1.2-2' }} RSD</p>
+               <p class="transactions">{{ (expenseTransactions$ | async)?.length || 0 }} transactions</p>
+            </div>
+         </div>
+         
+         <div class="stat-card" [class.positive]="financial.balance >= 0" [class.negative]="financial.balance < 0">
+            <div class="card-header">
+               <h3>Balance</h3>
+               <span class="icon">⚖️</span>
+            </div>
+            <div class="card-body">
+               <p class="amount">{{ financial.balance | number:'1.2-2' }} RSD</p>  
+               <p class="status">{{ financial.balance >= 0 ? '✓ Positive' : '✗ Negative' }}</p>
+            </div>
+         </div>
+
+         <div class="stat-card average" *ngIf="(expenseTransactions$ | async)?.length">      
+            <div class="card-header">
+               <h3>Avg Expense</h3>
+               <span class="icon">📊</span>      
+            </div>
+            <div class="card-body">   
+               <p class="amount">
+                  {{ (financial.expense / ((expenseTransactions$ | async)?.length || 1)) | number:'1.2-2'}} RSD         
+               </p>
+               <p class="count">per transaction</p>        
+            </div>
+         </div>
+
+      </ng-container>
+      
+      <div class="section">
+         <div class="section-header">
+            <h2>Top Spending Categories</h2>
+         </div>
+                  
+         <div class="category-list">
+            <div *ngFor="let cat of (categoriesWithExpenses$ | async); let i = index" class="category-item" [style.order]="i">
+               <div class="category-info">                   
+                  <div>                     
+                     <h4>{{ cat.name }}</h4>
+                     <p>{{ cat.count }} transactions</p>
+                  </div>  
+               </div>
+
+               <div class="category-stats">
+                  <span class="total">{{ cat.total | number:'1.2-2' }} RSD</span>
+                  <span class="average">Avg: {{ cat.average | number:'1.2-2' }} RSD</span>    
+               </div>
+            </div>
+         </div>
       </div>
-    </div>
-  </div>
+
+      <div class="section">
+         <div class="section-header">
+            <h2>Recent Transactions</h2>
+         </div>
+               
+         <div class="transactions-table">
+            <table>    
+               <thead>        
+                  <tr>            
+                     <th>Date</th>        
+                     <th>Description</th>     
+                     <th>Category</th>
+                     <th>Type</th>
+                     <th>Amount</th> 
+                  </tr>  
+               </thead>
+                        
+               <tbody>     
+                  <tr *ngFor="let tx of (recentTransactions$ | async)" [class]="tx.type ? tx.type.toLowerCase() : ''">
+                     <td>{{ tx.date | date:'shortDate' }}</td>
+                     <td>{{ tx.description || 'N/A' }}</td>
+                     <td>{{ tx.categoryName }}</td>
+                     <td>                   
+                        <span class="badge" [class]="tx.type ? tx.type.toLowerCase() : 'default-badge'"> {{ tx.type }} </span>      
+                     </td>
+                     <td class="amount">{{ tx.amount | number:'1.2-2' }} RSD</td>
+                  </tr>         
+               </tbody>  
+            </table>
+         </div>
+      </div>
+   
+
+      <div class="section">
+         <div class="section-header">
+            <h2>Monthly Breakdown</h2>
+         </div>
+               
+         <div class="monthly-stats">
+            <div *ngFor="let month of (monthlyStats$ | async)" class="month-card">
+               <div class="month-header">
+                  <h4>{{ month.month }}</h4>
+               </div>
+                              
+               <div class="month-body">      
+                  <div class="stat">
+                     <span class="label">Income</span>
+                     <span class="value income">{{ month.income | number:'1.2-2' }} RSD</span>         
+                  </div>
+                              
+                  <div class="stat">
+                     <span class="label">Expense</span>
+                     <span class="value expense">{{ month.expense | number:'1.2-2' }} RSD</span>  
+                  </div>
+
+                  <div class="stat">
+                     <span class="label">Balance</span>
+                     <span class="value" [class.positive]="month.balance >= 0" [class.negative]="month.balance < 0"> {{ month.balance | number:'1.2-2' }} RSD </span>   
+                  </div>
+
+                  <div class="stat">
+                     <span class="label">Transactions</span>
+                     <span class="value">{{ month.transactions }}</span>    
+                  </div>   
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>
