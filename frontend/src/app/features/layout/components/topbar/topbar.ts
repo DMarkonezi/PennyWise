@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import * as AuthSelectors from '../../../auth/store/auth.selectors';
 import * as AuthActions from '../../../auth/store/auth.actions';
+import { User } from '../../../auth/store/auth.models';
 
 @Component({
   selector: 'app-topbar',
@@ -13,31 +14,14 @@ import * as AuthActions from '../../../auth/store/auth.actions';
   styleUrl: './topbar.css',
 })
 export class TopbarComponent {
-  pageTitle = "Overview";
-  userInitial = "U";
+  @Input() user: User | undefined;
+
+  private store = inject(Store);
+
+  onLogout(): void {
+    if (confirm('Are you sure?')) {
+      this.store.dispatch(AuthActions.logout());
+    }
+  }
+
 }
-
-// export class TopbarComponent implements OnInit {
-//   user$ : any;
-//   userInitial = 'U';
-//   pageTitle = 'Dashboard';
-
-//   constructor(
-//     private store: Store,
-//     private router: Router
-//   ) {
-//      this.user$ = this.store.select(AuthSelectors.selectUser);
-//   }
-
-//   ngOnInit(): void {
-//     this.user$.subscribe((user) => {
-//       if (user) {
-//         this.userInitial = user.email ? user.email[0].toUpperCase() : 'U';
-//       }
-//     });
-//   }
-
-//   onLogout(): void {
-//     this.store.dispatch(AuthActions.logout());
-//   }
-// }

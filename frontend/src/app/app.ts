@@ -7,6 +7,7 @@ import * as AuthSelectors from './features/auth/store/auth.selectors';
 import * as AuthActions from './features/auth/store/auth.actions';
 
 import { MainLayoutComponent } from './features/layout/components/main-layout/main-layout';
+import { StorageService } from './core/services/storage.service';
 
 @Component({
   selector: 'app-root',
@@ -22,13 +23,21 @@ export class App implements OnInit {
 
   constructor(
     private store: Store,
-    private router: Router
+    private router: Router,
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {
+
+    const savedUser = this.storageService.getItem('user');
+    if (savedUser) {
+      const user = JSON.parse(savedUser);
+      this.store.dispatch(AuthActions.loginSuccess({ user }));
+    }
+
     this.userName$ = this.store.select(AuthSelectors.selectUser);
 
-    // Slušaj za rutiranje
+    // Slusa za rutiranje
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
@@ -37,7 +46,6 @@ export class App implements OnInit {
 
     this.isAuthPage = this.checkIfAuthPage(this.router.url);
 
-    // Čitaj user iz NGRX store-a
     this.store.select(AuthSelectors.selectUser).subscribe((user) => {
       if (user) {
         this.userInitial = user.username ? user.username[0].toUpperCase() : 'G';
@@ -51,7 +59,6 @@ export class App implements OnInit {
   }
 
   onLogout() {
-    // Dispatch logout akciju iz NGRX
     this.store.dispatch(AuthActions.logout());
   }
 }

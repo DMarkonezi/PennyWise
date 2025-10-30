@@ -1,16 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-//import * as TransactionsActions from '../../store/transactions.actions';
-//import * as TransactionsSelectors from '../../store/transactions.selectors';
-//import { TransactionFormComponent } from '../../components/transaction-form/transaction-form.component';
-//import { TransactionListComponent } from '../../components/transaction-list/transaction-list.component';
 import * as TransactionsActions from '../transactions/store/transactions.actions';
 import * as TransactionsSelectors from '../transactions/store/transactions.selectors'
 import * as OverviewSelectors from '../overview/store/overview.selectors';
 import { TransactionFormComponent } from './components/transaction-form/transaction-form';
 import { TransactionsListComponent } from './components/transaction-list/transactions-list';
-
 
 @Component({
   selector: 'app-transactions-list',

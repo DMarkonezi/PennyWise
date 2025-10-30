@@ -1,0 +1,180 @@
+.tx-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.tx-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.tx-table th {
+  color: white;
+  padding: 16px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tx-table tbody tr {
+  border-bottom: 1px solid #ecf0f1;
+  transition: all 0.3s ease;
+}
+
+.tx-table tbody tr:hover {
+  background-color: #f8f9fa;
+  box-shadow: inset 0 0 0 1px #ecf0f1;
+}
+
+.tx-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.tx-table td {
+  padding: 16px 12px;
+  color: #333;
+  font-size: 14px;
+}
+
+.tx-table td.amount {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.type-income,
+.type-expense {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.type-income {
+  background: #d5f4e6;
+  color: #27ae60;
+}
+
+.type-expense {
+  background: #fadbd8;
+  color: #e74c3c;
+}
+
+.income {
+  border-left: 3px solid #27ae60;
+}
+
+.expense {
+  border-left: 3px solid #e74c3c;
+}
+
+.income .amount {
+  color: #27ae60;
+}
+
+.expense .amount {
+  color: #e74c3c;
+}
+
+.amount::before {
+  content: attr(data-prefix);
+  margin-right: 4px;
+}
+
+.income .amount::before {
+  content: '+';
+}
+
+.expense .amount::before {
+  content: '-';
+}
+
+.btn-delete {
+  background: none;
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-delete:hover {
+  background: #fadbd8;
+  border-color: #c0392b;
+  color: #c0392b;
+  transform: translateY(-1px);
+}
+
+.btn-delete:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .tx-table {
+    font-size: 12px;
+  }
+
+  .tx-table th,
+  .tx-table td {
+    padding: 12px 8px;
+  }
+
+  .tx-table th {
+    font-size: 11px;
+  }
+
+  .btn-delete {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tx-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .tx-table thead,
+  .tx-table tbody,
+  .tx-table th,
+  .tx-table td,
+  .tx-table tr {
+    display: block;
+  }
+
+  .tx-table thead tr {
+    display: none;
+  }
+
+  .tx-table tr {
+    margin-bottom: 15px;
+    border: 1px solid #ecf0f1;
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .tx-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border: none;
+  }
+
+  .tx-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #999;
+    flex: 0 0 100px;
+  }
+}

@@ -76,16 +76,6 @@ export class TransactionFormComponent implements OnInit {
 
     } catch (error) {
         console.error('4. Fatal Error: Cannot retrieve user from Store.', error);
-        // const transactionToCreateFallback = {
-        //     amount: this.amount,
-        //     description: this.description,
-        //     categoryId: this.categoryId,
-        //     type: this.type,
-        //     date: new Date(this.date),
-        //     userId: 999, 
-        // };
-        // this.save.emit(transactionToCreateFallback);
-        // console.log('3. Data emitted to parent (using TEMP ID: 999).');
         this.resetForm();
     }
   }

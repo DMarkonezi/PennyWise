@@ -16,7 +16,6 @@ import { CategoryFormComponent } from './components/category-form/category-form'
 export class CategoriesComponent implements OnInit {
   private store = inject(Store);
 
-  // Selektori iz store-a
   categories$ = this.store.select(CategoriesSelectors.selectAllCategories);
   loading$ = this.store.select(CategoriesSelectors.selectCategoriesLoading);
   error$ = this.store.select(CategoriesSelectors.selectCategoriesError);
@@ -40,8 +39,6 @@ export class CategoriesComponent implements OnInit {
 
   deleteCategory(id: string) {
     if (confirm('Are you sure?')) {
-      // Ako budeš imao delete u backendu, ovde se poziva
-      // this.store.dispatch(CategoriesActions.deleteCategory({ id }));
       console.log('Deleting category:', id);
     }
   }

@@ -16,13 +16,11 @@ import { CategoriesState } from '../../store/categories.state';
 export class CategoryFormComponent {  
   name: string = '';
   color: string = '#000000';
-  type: 'income' | 'expense' = 'expense'; // Vrednost koja se vezuje za Select
+  type: 'income' | 'expense' = 'expense';
 
   constructor(private store: Store<CategoriesState>) {} 
 
   onSubmit(): void {
-  
-    // 1. Priprema podataka
     const categoryToCreate = {
         name: this.name,
         color: this.color,
@@ -30,24 +28,19 @@ export class CategoryFormComponent {
         isDefault: false, 
     };
 
-    // 2. DISPEČOVANJE NgRx AKCIJE za čuvanje
     this.store.dispatch(
         CategoriesActions.addCategory({ category: categoryToCreate })
     );
 
-    // 3. Resetovanje forme (brišemo vrednosti)
     this.name = '';
     this.color = '#000000';
     this.type = 'expense';
 
-    // 4. Dispečovanje UI akcije za zatvaranje modala/forme
     this.store.dispatch(CategoriesActions.closeCategoryForm());
   }
 
   onCancel(): void {
-    // Dispečovanje akcije za zatvaranje
     this.store.dispatch(CategoriesActions.closeCategoryForm());
-    // Resetovanje (opciono)
     this.name = '';
     this.color = '#000000';
     this.type = 'expense';
