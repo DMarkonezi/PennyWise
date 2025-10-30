@@ -1,10 +1,10 @@
-  import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-  import { CreateTransactionDto } from './dto/create-transaction.dto';
-  import { UpdateTransactionDto } from './dto/update-transaction.dto';
-  import { InjectRepository } from '@nestjs/typeorm';
-  import { Repository } from 'typeorm';
-  import { Transaction } from './entities/transaction.entity';
-  import { User } from 'src/user/entities/user.entity';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { UpdateTransactionDto } from './dto/update-transaction.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Transaction } from './entities/transaction.entity';
+import { User } from 'src/user/entities/user.entity';
 import { Category } from 'src/category/entities/category.entity';
 
 @Injectable()
@@ -34,12 +34,13 @@ export class TransactionService {
     return this.transactionRepo.save(transaction);
   }
 
-  async getCategories(user: User): Promise<Transaction[]> {
-      return this.transactionRepo.find({
-        where: { user: { id: user.id } },
-        order: { date: 'DESC' },
-      });
-    }
+  async getTransactions(user: User): Promise<Transaction[]> {
+    return this.transactionRepo.find({
+      where: { user: { id: user.id } },
+      relations: ['category'],
+      order: { date: 'DESC' },
+    });
+  }
 
 
   create(createTransactionDto: CreateTransactionDto) {

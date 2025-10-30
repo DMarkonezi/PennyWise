@@ -26,13 +26,14 @@ export class TransactionController {
   }
 
   @Get()
-  async getCategories(@GetUser() user: User) {
-    const categories = await this.transactionService.getCategories(user);
-    return categories.map(tr => ({
+  async getTransactions(@GetUser() user: User) {
+    const transactions = await this.transactionService.getTransactions(user);
+    return transactions.map(tr => ({
       id: tr.id,
       amount: tr.amount,
       description: tr.description,
-      date: tr.date
+      date: tr.date,
+      categoryId: tr.category.id
     }));
   }
 
