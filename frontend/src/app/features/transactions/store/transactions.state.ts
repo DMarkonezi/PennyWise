@@ -6,8 +6,9 @@ export interface Transaction {
   amount: number;
   description: string;
   categoryId: number;
+  categoryName: string;
   date: Date;
-  type: 'INCOME' | 'EXPENSE'; // For frontend logic
+  type: 'INCOME' | 'EXPENSE';
   createdAt: Date; 
   recurringTransactionId: number | null; 
 }
@@ -30,30 +31,3 @@ export const initialTransactionsState: TransactionsState = transactionAdapter.ge
   selectedTransactionId: null,
   isFormOpen: false,
 });
-
-
-// export interface Transaction {
-//   id: string;
-//   amount: number;
-//   description: string;
-//   date: Date;
-//   userId: number;
-//   categoryId: number;
-//   recurringTransactionId: number | null;
-// }
-
-// export interface TransactionsState {
-//   transactions: Transaction[];
-//   loading: boolean;
-//   error: string | null;
-//   selectedTransaction: Transaction | null;
-//   isFormOpen: boolean;  
-// }
-
-// export const initialState: TransactionsState = {
-//   transactions: [],
-//   loading: false,
-//   error: null,
-//   selectedTransaction: null,
-//   isFormOpen: false,
-// };
