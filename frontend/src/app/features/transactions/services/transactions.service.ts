@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Transaction } from '../store/transactions.state';
 
+// Observables da ce da emituju kada dobiju nazad ono sto su trazili
+
 @Injectable({
   providedIn: 'root',
 })

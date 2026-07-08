@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { TransactionsState, transactionAdapter } from './transactions.state';
 
 export const selectTransactionsState = 
-  createFeatureSelector<TransactionsState>('transactions');
+  createFeatureSelector<TransactionsState>('transactions'); // pristupa deu gobanog store-a gde su transactions
 
 // Entity adapter selectors
 export const {
@@ -10,7 +10,7 @@ export const {
   selectEntities,
   selectAll,
   selectTotal,
-} = transactionAdapter.getSelectors(selectTransactionsState);
+} = transactionAdapter.getSelectors(selectTransactionsState); // Entity adapter automatsi to radi
 
 // Custom selectors
 export const selectAllTransactions = selectAll;

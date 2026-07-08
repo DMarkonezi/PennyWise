@@ -5,6 +5,8 @@ import * as TransactionsActions from './transactions.actions';
 export const transactionsReducer = createReducer(
   initialTransactionsState,
 
+  // ! on - slusaju akciju
+
   // LOAD
   on(TransactionsActions.loadTransactions, (state) => ({
     ...state,

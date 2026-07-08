@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store';
 import { selectAllCategories } from '../../categories/store/categories.selectors';
 import { selectAllTransactions } from './transactions.selectors';
 
-
+// Slusa akcije preko observable pretplate
 @Injectable()
 export class TransactionsEffects {
   private actions$ = inject(Actions);
@@ -23,30 +23,30 @@ export class TransactionsEffects {
    loadTransactions$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TransactionsActions.loadTransactions),
-      switchMap(() => {
+      switchMap(() => { // Krece tok za proveru podataka
         return this.store.select(selectAllTransactions).pipe(
           take(1),
           switchMap(existingTransactions => {
             // Proverava da li su transakcije vec odradjene ucitane u store ili ne
             if (existingTransactions && existingTransactions.length > 0) {
               return of(TransactionsActions.loadTransactionsSuccess({ 
-                transactions: existingTransactions 
+                transactions: existingTransactions  // Ako jesu success
               }));
             }
-
+            // Paralelno se dobavljaju
             const transactions$ = this.transactionsService.getTransactions();
             const categoriesFromStore$ = this.store.select(selectAllCategories).pipe(take(1));
-
+            // Ceka da oba Observeable emituju svoju vrednost
             return combineLatest([transactions$, categoriesFromStore$]).pipe(
               switchMap(([transactions, categoriesFromStore]) => {
-                if (categoriesFromStore && categoriesFromStore.length > 0) {
+                if (categoriesFromStore && categoriesFromStore.length > 0) { // Proverava se da li kategorije postoje
                   return of({ transactions, categories: categoriesFromStore });
                 }
                 return this.categoriesService.getCategories().pipe(
                   map(categories => ({ transactions, categories }))
                 );
               }),
-              map(({ transactions, categories }) => {
+              map(({ transactions, categories }) => { // Na transakcije se nalepljuje
                 const categoryMap = new Map<string, any>(
                   categories.map(cat => [String(cat.id), cat])
                 );
@@ -76,8 +76,8 @@ export class TransactionsEffects {
     this.actions$.pipe(
       ofType(TransactionsActions.addTransaction),
       switchMap(({ transaction }) =>
-        this.transactionsService.addTransaction(transaction).pipe(
-          switchMap(newTransaction =>
+        this.transactionsService.addTransaction(transaction).pipe( // Unutrasnji lanac za obradu API podataka
+          switchMap(newTransaction => // Unutrasnji switch za api, da vidi da li je unutrasnji poziv uspesan
             of(TransactionsActions.addTransactionSuccess({ transaction: newTransaction }))
           ),
           catchError(error =>
@@ -103,90 +103,4 @@ export class TransactionsEffects {
       )
     )
   );
-
-  // loadTransactions$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(TransactionsActions.loadTransactions),
-  //     switchMap(() => {
-  //       // Preuzmi transakcije i kategorije iz store-a
-  //       const transactions$ = this.transactionsService.getTransactions();
-  //       const categoriesFromStore$ = this.store.select(selectAllCategories).pipe(take(1));
-
-  //       return combineLatest([transactions$, categoriesFromStore$]).pipe(
-  //         switchMap(([transactions, categoriesFromStore]) => {
-  //           // Ako su kategorije u store-u, koristi ih
-  //           if (categoriesFromStore && categoriesFromStore.length > 0) {
-  //             return of({ transactions, categories: categoriesFromStore });
-  //           }
-
-  //           // Inače učitaj ih iz API-ja
-  //           return this.categoriesService.getCategories().pipe(
-  //             map(categories => ({ transactions, categories }))
-  //           );
-  //         }),
-  //         map(({ transactions, categories }) => {
-  //           console.log('CATEGORIES:', categories);
-  //           console.log('RAW TRANSACTIONS:', transactions);
-
-  //           const categoryMap = new Map<string, any>(
-  //             categories.map(cat => [String(cat.id), cat])
-  //           );
-
-  //           const transactionsWithCategoryData = transactions.map(tx => {
-  //             const category = categoryMap.get(String(tx.categoryId));
-  //             console.log(`TX ${tx.id}: categoryId=${tx.categoryId}, category=`, category);
-
-  //             return {
-  //               ...tx,
-  //               type: category?.type || 'EXPENSE',
-  //               categoryName: category?.name || 'Unknown Category',
-  //             };
-  //           });
-
-  //           console.log('FINAL TRANSACTIONS:', transactionsWithCategoryData);
-
-  //           return TransactionsActions.loadTransactionsSuccess({
-  //             transactions: transactionsWithCategoryData,
-  //           });
-  //         }),
-  //         catchError(error => {
-  //           console.error('ERROR IN TRANSACTIONS EFFECT:', error);
-  //           return of(TransactionsActions.loadTransactionsFailure({ error: error.message }));
-  //         })
-  //       );
-  //     })
-  //   )
-  // );
-
-  // addTransaction$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(TransactionsActions.addTransaction),
-  //     switchMap(({ transaction }) =>
-  //       this.transactionsService.addTransaction(transaction).pipe(
-  //         map(newTransaction =>
-  //           TransactionsActions.addTransactionSuccess({ transaction: newTransaction })
-  //         ),
-  //         catchError(error =>
-  //           of(TransactionsActions.addTransactionFailure({ error }))
-  //         )
-  //       )
-  //     )
-  //   )
-  // );
-
-  // deleteTransaction$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(TransactionsActions.deleteTransaction),
-  //     switchMap(({ id }) =>
-  //       this.transactionsService.deleteTransaction(id).pipe(
-  //         map(() =>
-  //           TransactionsActions.deleteTransactionSuccess({ id })
-  //         ),
-  //         catchError(error =>
-  //           of(TransactionsActions.deleteTransactionFailure({ error }))
-  //         )
-  //       )
-  //     )
-  //   )
-  // );
 }
